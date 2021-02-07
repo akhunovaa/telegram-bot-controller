@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package telegram;
+
+option java_package = "com.proto.telegram";
+option java_multiple_files = true;
+
+message SearchChannel {
+  string query = 1;
+  int32 limit = 2;
+}
+
+message SearchChannelLink {
+  int64 channel = 1;
+  int64 message_id = 2;
+}
+
+message SearchMessage {
+  string query = 1;
+  int32 limit = 2;
+  int64 channel = 3;
+}
+
+message Channel {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  string link = 4;
+}
+
+message Message {
+  int64 id = 1;
+  int64 chat_id = 2;
+  string text = 3;
+}
+
+message SearchChannelRequest {
+  SearchChannel search_channel = 1;
+}
+
+message SearchChannelResponse {
+  int32 count = 1;
+  repeated Channel channels = 2;
+}
+
+message SearchChannelLinkRequest {
+  SearchChannelLink search_channel_link = 1;
+}
+
+message SearchChannelLinkResponse {
+  int32 count = 1;
+  Channel channel = 2;
+}
+
+message SearchMessageRequest {
+  SearchMessage search_message = 1;
+}
+
+message SearchMessageResponse {
+  int32 count = 1;
+  repeated Message messages = 2;
+}
+
+service SearchService {
+
+  rpc SearchChannels(SearchChannelRequest) returns (SearchChannelResponse) {};
+
+  rpc SearchChannel(SearchChannelRequest) returns (SearchChannelResponse) {};
+
+  rpc SearchMessages(SearchMessageRequest) returns (SearchMessageResponse) {};
+
+  rpc GetPublicMessageLink(SearchChannelLinkRequest) returns (SearchChannelLinkResponse) {};
+
+}

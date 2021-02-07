@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package instagram;
+
+option java_package = "com.proto.instagram";
+option java_multiple_files = true;
+
+message MediaRequest {
+  string hashtag = 1;
+  string next_max_id = 2;
+}
+
+message MediaCodeRequest {
+  int64 pk = 1;
+  string code = 2;
+}
+
+message MediaResponse {
+  string status = 1;
+  Media media = 2;
+  string next_max_id = 3;
+  int32 status_code = 4;
+}
+
+message Media {
+  repeated Item ranked_items = 2;
+  repeated Item items = 3;
+  int32 num_results = 4;
+  bool more_available = 5;
+}
+
+message Item {
+  int64 pk = 1;
+  string id = 2;
+  string media_type = 3;
+  int64 video_duration = 4;
+  string code = 5;
+  string caption = 6;
+  Author author = 7;
+  Location location = 8;
+  repeated Video video = 9;
+  repeated Image image = 10;
+}
+
+message Author {
+  int64 pk = 1;
+  string username = 2;
+  string full_name = 3;
+  string profile_picture_url = 4;
+  string profile_picture_id = 5;
+}
+
+message Location {
+  int64 pk = 1;
+  string name = 2;
+  double lat = 3;
+  double lng = 4;
+  string address = 6;
+}
+
+message Video {
+  string id = 1;
+  int32 height = 2;
+  int32 width = 3;
+  string type = 4;
+  string url = 5;
+}
+
+message Image {
+  string url = 1;
+  int32 height = 2;
+  int32 width = 3;
+}
+
+service MediaService {
+
+  rpc MediaListRequest(MediaRequest) returns (MediaResponse) {};
+
+  rpc MediaListRequestFromCode(MediaCodeRequest) returns (MediaResponse) {};
+
+}

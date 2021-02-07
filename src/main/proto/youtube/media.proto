@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package youtube;
+
+option java_package = "com.proto.youtube";
+option java_multiple_files = true;
+
+message MediaRequest {
+  int64 max_results = 1;
+  string query_term = 2;
+}
+
+message MediaCodeRequest {
+  int64 pk = 1;
+  string code = 2;
+}
+
+message MediaResponse {
+  bool status = 1;
+  Media media = 2;
+}
+
+message MediaSearchResponse {
+  bool status = 1;
+  repeated SearchMedia searchMedias = 2;
+}
+
+message SearchMedia {
+  string id = 1;
+  string channel_id = 2;
+  string channel_title = 3;
+  string description = 4;
+  int64 published_at = 5;
+  string title = 6;
+  repeated Thumbnail thumbnails = 7;
+}
+
+message Media {
+  StreamingData streaming_data = 3;
+  VideoDetails video_details = 2;
+}
+
+message StreamingData {
+  string expire_in_seconds = 1;
+  repeated Formats formats = 2;
+  repeated AdaptiveFormats adaptive_formats = 3;
+}
+
+message Formats {
+  int32 itag = 1;
+  string url = 2;
+  string mime_type = 3;
+  int32 bitrate = 4;
+  int32 width = 5;
+  int32 height = 6;
+  string last_modified = 7;
+  string content_length = 8;
+  string quality = 9;
+  int32 fps = 10;
+  string quality_label = 11;
+  string projection_type = 12;
+  int32 average_bitrate = 13;
+  string audio_quality = 14;
+  string approx_duration_ms = 15;
+  string audio_sample_rate = 16;
+  int32 audio_channels = 17;
+}
+
+message AdaptiveFormats {
+  int32 itag = 1;
+  string url = 2;
+  string mime_type = 3;
+  int32 bitrate = 4;
+  int32 width = 5;
+  int32 height = 6;
+  string last_modified = 7;
+  string content_length = 8;
+  string quality = 9;
+  int32 fps = 10;
+  string quality_label = 11;
+  string projection_type = 12;
+  int32 average_bitrate = 13;
+  string audio_quality = 14;
+  string approx_duration_ms = 15;
+  string audio_sample_rate = 16;
+  int32 audio_channels = 17;
+}
+
+message VideoDetails {
+  string video_id = 1;
+  string title = 2;
+  string length_seconds = 3;
+  repeated string keywords = 4;
+  string channel_id = 5;
+  string short_description = 6;
+  repeated Thumbnail thumbnail = 7;
+  string view_count = 8;
+  string author = 9;
+}
+
+message Thumbnail {
+  string url = 1;
+  int32 height = 2;
+  int32 width = 3;
+}
+
+service MediaService {
+
+  rpc MediaMetaData(MediaRequest) returns (MediaResponse) {};
+
+  rpc MediaSearch(MediaRequest) returns (MediaSearchResponse) {};
+
+}
